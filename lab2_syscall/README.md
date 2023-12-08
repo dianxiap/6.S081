@@ -2,13 +2,13 @@
 添加系统调用主要有以下几步：
 
 1. 在`user/user.h`中添加系统调用函数的定义。
-2. 在`user/usys.pl`中添加入口，这个文件将会在`make`后生成`user/usys.S`文件，在该汇编文件中，每个函数就只有三行，将系统调用号通过`li(load imm)`存入`a7`寄存器，之后使用`ecall`进入内核态，最后返回。
+2. 在`user/usys.pl`中添加入口，这个文件将会在`make`后生成`user/usys.S`文件，在该汇编文件中，每个函数就只有三行，将系统调用号通过`li(load imm)`存入`a7`寄存器，(通过设置寄存器`a7`的值，表明调用哪个`system call`)之后使用`ecall`进入内核态，最后返回。
 
 ```
 fork:
- li a7, SYS_fork
- ecall
- ret
+    li a7, SYS_fork
+    ecall   //ecall表示一种特殊的trap，转到kernel/syscall.c:syscall执行
+    ret
 ```
 3. 在`kernel/syscall.h`中定义系统调用号。
 4. 在`kernel/syscall.c`的`syscalls`函数指针数组中添加对应的函数。在`syscall`函数中，先读取`trapframe->a7`获取系统调用号，之后根据该系统调用号查找`syscalls`数组中的对应的处理函数并调用。
