@@ -40,4 +40,7 @@
 19. copyin()
 20. copyinstr()
 
+## Print a page table (easy)
 
+## A kernel page table per process (hard)
+## Simplify copyin/copyinstr（hard）
