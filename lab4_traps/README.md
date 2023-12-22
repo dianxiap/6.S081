@@ -12,3 +12,5 @@
 ## Alarm
 ### 1. test0: invoke handler
 ### 2. test1/test2(): resume interrupted code
+正确返回到调用handler前的状态
+注意：有一个handler函数正在执行，就不能让第二个handler函数继续执行
