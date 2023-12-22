@@ -1,7 +1,9 @@
 ## lab3
 ## 前置知识
-## kernel函数
+1. 多级页表
+2. 物理内存与虚拟内存的映射
 
+## 相关kernel函数
 
 ### main.c
 1. 调用函数kinit()在内核启动时对物理内存分配器进行初始化
@@ -17,6 +19,28 @@
 
 
 ### vm.c
-1.kernel_
+1. kernel_pagetable：指向内核页表的根目录页
+2. kvminit()
+3. kvminithart()
+4. walk()
+5. walkaddr()
+6. kvmmap()
+7. kvmpa()
+8. mappages()
+9. uvmunmap()
+10. uvmcreate()
+11. uvminit()
+12. uvmalloc()
+13. uvmdealloc()
+14. freewalk()
+15. uvmfree()
+16. uvmcopy()
+17. uvmclear()
+18. copyout()
+19. copyin()
+20. copyinstr()
 
+## Print a page table (easy)
 
+## A kernel page table per process (hard)
+## Simplify copyin/copyinstr（hard）
