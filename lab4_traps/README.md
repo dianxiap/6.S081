@@ -6,8 +6,8 @@
 4. alarm
 
 ## 陷阱trap
-1. 用户级别（系统调用）：uservec->usertrap->usertrapret->userret
-2. kernel级别
+1. 用户级别（系统调用）：ecall->uservec->usertrap->syscall->usertrapret->userret
+2. kernel级别trap
 3. 异常
 4. 设备中断
 5. 计时器中断
@@ -31,10 +31,16 @@
 
 ## 相关kernel函数
 
+### trampoline.S
+### kernelvec.S
+### trap.c
+
 
 ## RISC-V assembly (easy)
 ## Backtrace
+实现类似 gdb 中的那种 backtrace ，只输出每一个栈帧的返回地址即可
 ## Alarm
+向 xv6 添加一个功能，该功能会在进程使用 CPU 时间时定期向进程发出警报
 ### 1. test0: invoke handler
 ### 2. test1/test2(): resume interrupted code
 正确返回到调用handler前的状态
