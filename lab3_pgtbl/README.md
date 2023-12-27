@@ -6,14 +6,13 @@
 
 ## 相关宏函数
 ### riscv.h
-
-## 相关kernel函数
 1. PGROUNDUP：将 sz（大小）进行页面上取整操作，即向上对齐到下一个页面的边界
 2. PGROUNDDOWN：将 a（地址）进行页面下取整操作，即向下对齐到当前页面的边界
 3. PA2PTE：将物理地址调整到PTE的正确位置
 4. PTE2PA：根据pte虚拟地址提取对应的物理地址
 5. PX：根据页表级别 level 和虚拟地址 va, 从虚拟地址中提取出所需的9位页表索引
-
+   
+## 相关kernel函数
 ### main.c
 1. kinit()
 2. kvminit()
