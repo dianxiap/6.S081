@@ -19,8 +19,7 @@
 4. sscratch：一个特别的寄存器，通常在用户空间发生trap，并进入到uservec之后，sscratch就装载着指向进程trapframe的指针（该进程的trapframe，在进程被创建，并从userret返回的时候，就已经被内核设置好并且放置到sscratch中）。RISC-V还提供了一条交换指令（csrrw），可以将任意寄存器与sscratch进行值的交换。sscratch的这些特性，便于在uservec中进行一些寄存器的保存、恢复工作
 5. sstatus：位于该寄存器中的SIE位，控制设备中断是否开启，如果SIE被清0，RISC-V会推迟期间的设备中断，直到SIE被再次置位；SPP位指示一个trap是来自用户模式下还是监管者模式下的，因此也决定了sret要返回到哪个模式下。
 
-**当trap确实发生了，`RISC-V CPU硬件`按以下步骤处理所有类型的trap（除了计时器中断）
-**
+**当trap确实发生了，`RISC-V CPU硬件`按以下步骤处理所有类型的trap（除了计时器中断）**
 1. 如果造成trap的是设备中断，将sstatus中的SIE位清0，然后跳过以下步骤。
 2. （如果trap的原因不是设备中断）将sstatus中的SIE位清0，关闭设备中断。
 3. 将pc的值复制到sepc中。
