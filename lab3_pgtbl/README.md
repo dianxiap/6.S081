@@ -1,7 +1,7 @@
 ## lab3
 ## 前置知识
 1. 分段与分页
-2. . 多级页表
+2. 多级页表
 3. 物理内存与虚拟内存的映射
 
 ## 相关kernel函数
@@ -37,11 +37,11 @@
 13. uvmdealloc()：调用uvmunmap来回收已分配的物理内存，使得进程的内存大小从oldsz变为newsz
 14. freewalk()
 15. uvmfree()
-16. uvmcopy()
+16. uvmcopy()：给定一个父进程页表，将其内存拷贝到子进程页表中，同时拷贝页表和对应的物理内存
 17. uvmclear()
-18. copyout()
-19. copyin()
-20. copyinstr()
+18. copyout()：从内核空间向用户空间拷贝数据
+19. copyin()：从用户空间向内核空间拷贝数据
+20. copyinstr()：从用户空间拷贝一个以空字符结尾的字符串到内核空间
 
 ## sysproc.c
 sys_sbrk()：用户进程调用它以增加或减少自己拥有的物理内存
@@ -50,6 +50,8 @@ sys_sbrk()：用户进程调用它以增加或减少自己拥有的物理内存
 growproc()：根据增加或减少内存的需要，分别调用uvmmalloc和uvmdealloc来满足请求
 
 ## Print a page table (easy)
-
+模拟MMU，打印页表
 ## A kernel page table per process (hard)
+为每一个进程维护一个内核页表，然后在该进程进入到内核态时，不使用公用的内核态页表，而是使用进程的内核态页表
 ## Simplify copyin/copyinstr（hard）
+衔接任务二，主要目的是将用户进程页表的所有内容都复制到内核页表中，这样的话，就完成了内核态直接转换虚拟地址的方法
