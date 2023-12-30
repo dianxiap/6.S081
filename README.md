@@ -5,3 +5,4 @@
 ### [Lab3: Page tables](lab3_pgtbl/README.md)
 ### [lab4: Traps](lab4_traps/README.md)
 ### [Lab5: Xv6 lazy page allocation](lab5_lazy/README.md)
+### [Lab6: Copy-on-Write Fork for xv6](lab6_cow/README.md)
