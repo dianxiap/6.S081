@@ -1,4 +1,14 @@
-## lab3
+# Lab3: page tables
+
+## 一. Print a page table (easy)
+模拟MMU，打印页表
+## 二. A kernel page table per process (hard)
+为每一个进程维护一个内核页表，然后在该进程进入到内核态时，不使用公用的内核态页表，而是使用进程的内核态页表
+## 三. Simplify copyin/copyinstr（hard）
+衔接任务二，主要目的是将用户进程页表的所有内容都复制到内核页表中，这样的话，就完成了内核态直接转换虚拟地址的方法
+
+---
+## 总结
 ## 前置知识
 1. 分段与分页
 2. 多级页表
@@ -60,9 +70,4 @@ sys_sbrk()：用户进程调用它以增加或减少自己拥有的物理内存
 4. scheduler()：用于每个CPU的进程调度器，每个CPU在设置完成后调用scheduler()函数。通过上下文切换（context switch）来实现进程之间的切换
 5. freeproc()：释放一个进程（proc）结构和与之相关的数据，包括用户页面，内核页表
 
-## Print a page table (easy)
-模拟MMU，打印页表
-## A kernel page table per process (hard)
-为每一个进程维护一个内核页表，然后在该进程进入到内核态时，不使用公用的内核态页表，而是使用进程的内核态页表
-## Simplify copyin/copyinstr（hard）
-衔接任务二，主要目的是将用户进程页表的所有内容都复制到内核页表中，这样的话，就完成了内核态直接转换虚拟地址的方法
+
