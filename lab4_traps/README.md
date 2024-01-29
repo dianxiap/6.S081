@@ -1,4 +1,18 @@
-## lab4
+# Lab4: traps
+
+## 一. RISC-V assembly (easy)
+## 二. Backtrace
+实现类似 gdb 中的那种 backtrace ，只输出每一个栈帧的返回地址即可
+## 三. Alarm
+向 xv6 添加一个功能，该功能会在进程使用 CPU 时间时定期向进程发出警报
+### 1. test0: invoke handler
+### 2. test1/test2(): resume interrupted code
+正确返回到调用handler前的状态
+注意：有一个handler函数正在执行，就不能让第二个handler函数继续执行
+
+---
+## 总结
+
 ## 前置知识
 1. trap处理链路
 2. 一些寄存器的作用
@@ -36,12 +50,4 @@
 ### trap.c
 
 
-## RISC-V assembly (easy)
-## Backtrace
-实现类似 gdb 中的那种 backtrace ，只输出每一个栈帧的返回地址即可
-## Alarm
-向 xv6 添加一个功能，该功能会在进程使用 CPU 时间时定期向进程发出警报
-### 1. test0: invoke handler
-### 2. test1/test2(): resume interrupted code
-正确返回到调用handler前的状态
-注意：有一个handler函数正在执行，就不能让第二个handler函数继续执行
+
