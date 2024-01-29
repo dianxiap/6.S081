@@ -1,11 +1,11 @@
-# 0.xv6系统调用
+# Lab2: system calls
 
 
-## 任务一（trace）
+## 一. System call tracing（moderate）
 首先，需要知道的是，用户态的代码都在 `user` 文件夹内，内核态的代码都在 `kernel` 文件夹内。在上一个实验中，主要是在用户态内实现进程之间的创建和通信等功能，因此只需要在 `user` 文件夹内写代码。在这个任务中，`user/trace.c` 文件已经给出，重点是内核态部分。
-## 第一步，Makefile
+### 第一步，Makefile
 根据实验指导书，首先需要将 `$U/_trace` 添加到 `Makefile` 的 `UPROGS` 字段中。
-## 第二步，添加声明
+### 第二步，添加声明
 然后需要添加一些声明才能进行编译，进而启动`qemu。需要以下几步： 
 1. 可以看到，在 `user/trace.c` 文件中，使用了 `trace` 函数，因此需要在 `user/user.h` 文件中加入函数声明：`int trace(int)`;
 2. 同时，为了生成进入中断的汇编文件，需要在 `user/usys.pl` 添加进入内核态的入口函数的声明：`entry("trace")`，以便使用 `ecall` 中断指令进入内核态；  
@@ -13,7 +13,7 @@
 
 说明：
    在生成的 `user/usys.S` 文件中可以看到，汇编语言 `li a7, SYS_trace` 将指令码放到了 `a7` 寄存器中。在内核态 `kernel/syscall.c` 的 `syscall` 函数中，使用 `p->trapframe->a7` 取出寄存器中的指令码，然后调用对应的函数。
-## 第三步，实现 sys_trace() 函数
+### 第三步，实现 sys_trace() 函数
 最主要的部分是实现 `sys_trace()` 函数，在 `kernel/sysproc.c` 文件中。目的是实现内核态的 `trace()` 函数。我们的目的是跟踪程序调用了哪些系统调用函数，因此需要在每个 `trace` 进程中，添加一个 `mask` 字段，用来识别是否执行了 `mask` 标记的系统调用。在执行 `trace` 进程时，如果进程调用了 `mask `所包括的系统调用，就打印到标准输出中。
 
 首先在 `kernel/proc.h` 文件中，为 `proc` 结构体添加 `mask` 字段：`int mask;`。
@@ -33,12 +33,12 @@ uint64 sys_trace(void)
   return 0;
 }
 ```
-## 第四步，跟踪子进程
+### 第四步，跟踪子进程
 需要跟踪所有 `trace` 进程下的子进程，在`kernel/proc.c` 的 `fork()` 代码中，添加子进程的 `mask`：
 ```
 np->mask = p->mask;
 ```
-## 第五步，打印信息
+### 第五步，打印信息
 所有的系统调用都需要通过 `kernel/syscall.c` 中的 `syscall()` 函数来执行，因此在这里添加判断：
 ```
 void
@@ -91,17 +91,17 @@ char* syscalls_name[] = {
 ```
 此外，还需添加系统调用入口 `extern uint64 sys_trace(void)`; 和 `[SYS_trace]   sys_trace`,到 `kernel/syscall.c` 中。其中的 `p->trapframe->a0` 存储的是函数调用的返回值。
 
-## 任务二（sysinfo）
+## 二. Sysinfo（moderate）
 与任务一相似，也是实现一个系统调用。
-## 第一步，添加 Makefile
+### 第一步，添加 Makefile
 根据实验指导书，首先需要将 `$U/_sysinfotest` 添加到 `Makefile` 的 `UPROGS` 字段中。
-## 第二步，添加声明
+### 第二步，添加声明
 同样需要添加一些声明才能进行编译，启动 `qemu`。需要以下几步： 
 1. 在 `user/user.h `文件中加入函数声明：`int sysinfo(struct sysinfo*)`;，同时添加结构体声明 `struct sysinfo;`；
 2. 在 `user/usys.pl` 添加进入内核态的入口函数的声明：`entry("sysinfo");`；
 3. 同时在` kernel/syscall.h` 中添加系统调用的指令码。
 
-## 第三步，获取内存信息
+### 第三步，获取内存信息
 可以在 `kernel/sysinfo.h` 中查看结构体 `struct sysinfo`， 其中只有两个字段，一个是保存空闲内存信息，一个是保存正在运行的进程数目。
 
 两个字段的信息都需要自己写函数调用来获取，先来获取内存信息。内存信息的处理都写在 `kernel/kalloc.c` 文件中了，内存信息以链表的形式存储，每个节点存储一个物理内存页。
@@ -121,7 +121,7 @@ uint64 free_mem(void)
   return n * PGSIZE;
 }
 ```
-## 第四步，获取进程数目
+### 第四步，获取进程数目
 所有的进程有关的操作都保存在 `/kernel/proc.c`文件中，其中的 `proc` 数组保存了所有进程。进程有五种状态，我们只需要遍历 `proc` 数组，计算不为 `UNUSED` 状态的进程数目即可，函数为：
 ```
 int n_proc(void)
@@ -135,7 +135,7 @@ int n_proc(void)
   return n;
 }
 ```
-## 第五步，声明和调用
+### 第五步，声明和调用
 在 `kernel/defs.h` 中添加上面这两个函数的声明：
 ```
 uint64             free_mem(void);
