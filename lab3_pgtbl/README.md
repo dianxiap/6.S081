@@ -147,7 +147,7 @@ if(p->kernelpt == 0){
 
 (3). 根据提示，为了确保每一个进程的内核页表都关于该进程的内核栈有一个映射。我们需要将`procinit`方法中相关的代码迁移到`allocproc`方法中。很明显就是下面这段代码，将其剪切到上述内核页表初始化的代码后。
 
-```
+```ccc
 // Allocate a page for the process's kernel stack.
 // Map it high in memory, followed by an invalid
 // guard page.
